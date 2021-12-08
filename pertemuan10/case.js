@@ -78,9 +78,10 @@ function masak() {
 
 //async await
 async function main() {
-    console.log(await persiapan()); //await hanya bisa didalam function
+    console.log(await persiapan()); //await hanya bisa didalam function atau ada di async
     console.log(await rebusAir());
     console.log(await masak());
-}
+} //untuk handling error bisa menggunakan try and catch
+//ntar lebih sering menggunakan fetch
 
 main();
