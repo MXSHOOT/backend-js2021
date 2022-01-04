@@ -1,5 +1,5 @@
 // TODO 1: Buat data students
-// code here
-const 
+let students = ["Elen", "Naruto", "Sasuke"];
+
 // TODO 2: export data students
-// code here
+module.exports = students;
