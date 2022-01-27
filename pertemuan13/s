@@ -3,3 +3,4 @@ nodemon config/database.js
 npm run start mulai server
 npm i dotenv instal env
 npm i mysql install mysql
+npm i express install express

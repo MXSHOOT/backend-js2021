@@ -49,6 +49,14 @@ class Patient {
         });
         return this.find(id)
     }
+    static delete(id) {
+        return new Promise((resolve, reject) => {
+          const sql = "DELETE FROM patients WHERE id = ?";
+          db.query(sql, id, (err, results) => {
+            err ? reject(err) : resolve(results);
+          });
+        });
+    }
     
 }
 //export class

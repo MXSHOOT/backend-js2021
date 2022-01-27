@@ -5,9 +5,9 @@ const mysql = require("mysql");
 //import dotenv
 require("dotenv").config();
 
-//buat koneksi:createConnection
+//membuat koneksi
 const db = mysql.createConnection({
-    //host, user, password, database
+    //DB_ ada di dot env
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,

@@ -2,26 +2,25 @@
 //buat class student controller
 const Patient = require("../models/Patient.js");
 class PatientController{
-  async index(req, res){
-      const patients = await Patient.all();
+      async index(req, res){
+          const patients = await Patient.all();
 
-      //pake kondisi datanya gk boleh kosong
-      if (patients.length > 0){
-          
-          const data = {
-              message : "Menampilkan semua patients",
-              data : patients,
-          };
-          return res.status(200).json(data); 
-      } else {
-          return res.status(200).json({message : "Data is empty"})
+          if (patients.length > 0){
+              
+              const data = {
+                  message : "Menampilkan semua patients",
+                  data : patients,
+              };
+              return res.status(200).json(data); 
+          } else {
+              return res.status(200).json({message : "data kosong"})
+          }
       }
-  }
-    async store(req, res) {
-        // destructing object req.body
+      async store(req, res) {
+        // destructing object 
         const { namaP, noHP, alamatP, statusP, tanggalM, tanggalK, timeS } = req.body;
     
-        // jika data undefined maka kirim response error
+        // jika tidak ditemukan akan memberikan status error
         if (!namaP || !noHP || !alamatP || !statusP || tanggalM || tanggalK || timeS ) {
           const data = {
             message: "Semua data harus dikirim",
@@ -30,7 +29,7 @@ class PatientController{
           return res.status(422).json(data);
         }
     
-        // Memanggil method create dari model Student.
+        // membuat method create dari model Patients.
         const student = await Patient.create(req.body);
     
         const data = {
@@ -47,7 +46,7 @@ class PatientController{
         const student = await Patient.find(id);
 
         if (student) {
-          // Memanggil method update dari model Student.
+          // Memanggil method update dari model Patients.
           const student = await Patient.update(id, req.body);
           const data = {
             message: `Mengedit data patients`,
@@ -72,7 +71,7 @@ class PatientController{
     
         // Jika data ada, maka hapus data
         if (student) {
-          // Memanggil method delete dari Model Student
+          // Memanggil method delete dari Model Patients
           await Student.delete(id);
           const data = {
             message: `Menghapus data patients`,
@@ -81,9 +80,9 @@ class PatientController{
           return res.status(200).json(data);
         }
     
-        // Jika data tidak ditemukan
+        // validasi jika tidak ditemukan
         const data = {
-          message: `Patients not found`,
+          message: `Patients tidak ditemukan`,
         };
     
         return res.status(404).json(data);
@@ -104,16 +103,16 @@ class PatientController{
           return res.status(200).json(data);
         }
     
-        // Jika data tidak ditemukan
+        // validasi jika tidak ditemukan
         const data = {
-          message: `Patient not found`,
+          message: `Patients tidak ditemukan`,
         };
     
         res.status(404).json(data);
       }
-
+      //untuk pencarian
       async search(req, res){
-        const {name} = req.params; // di destructing
+        const {name} = req.params; 
         const patients = await Patient.search(name);
         
         if (patients.length > 0) {
@@ -126,54 +125,55 @@ class PatientController{
             message: `Resource with name : ${name} not found`,
           };
           res.status(404).json(gagal);
-    }
-
-    async positive(req, res) {
-      const patients = await Patient.findByStatus("positive");
-
-      if (patients.length > 0){
-          const data = {
-              message : "Get positive resource",
-              data : patients
-          };
-
-          return res.status(200).json(data);   
       }
-      else {
-          return res.status(200).json({message : "Data is empty"})
+      //mengetahui postif
+      async positive(req, res) {
+        const patients = await Patient.findByStatus("positive");
+
+        if (patients.length > 0){
+            const data = {
+                message : "Get positive resource",
+                data : patients
+            };
+
+            return res.status(200).json(data);   
+        }
+        else {
+            return res.status(200).json({message : "Data is empty"})
+        }
       }
-  }
-  async dead(req, res) {
-    const patients = await Patient.findByStatus("dead");
+      async dead(req, res) {
+        const patients = await Patient.findByStatus("dead");
 
-    if (patients.length > 0){
-        const data = {
-            message : "Get dead resource",
-            data : patients
-        };
+        if (patients.length > 0){
+            const data = {
+                message : "Get dead resource",
+                data : patients
+            };
 
-        return res.status(200).json(data);   
-    }
-    else {
-        return res.status(200).json({message : "Data is empty"})
-    }
-}
-async recovered(req, res) {
-  const patients = await Patient.findByStatus("recovered");
+            return res.status(200).json(data);   
+        }
+        else {
+            return res.status(200).json({message : "Data is empty"})
+        }
+      }
+      //membuat mengetahui status
+      async recovered(req, res) {
+        const patients = await Patient.findByStatus("recovered");
 
-  if (patients.length > 0){
-      const data = {
-          message : "Get recovered resource",
-          data : patients
-      };
+        if (patients.length > 0){
+            const data = {
+                message : "Get recovered resource",
+                data : patients
+            };
 
-      return res.status(200).json(data);
-  }
-  else {
-      return res.status(200).json({message : "Data is empty"})
-  }
-}
-}
+            return res.status(200).json(data);
+        }
+        else {
+            return res.status(200).json({message : "Data is empty"})
+        }
+      }
+}       
 
 //buat object
 const object = new PatientController();

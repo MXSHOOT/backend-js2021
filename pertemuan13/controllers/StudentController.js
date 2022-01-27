@@ -3,10 +3,8 @@ const Student = require("../models/Student");
 
 class StudentController {
   async index(req, res) {
-    // Memanggil method all dari Model Student
     const students = await Student.all();
 
-    // Cek apakah data array tidak kosong
     if (students.length > 0) {
       const data = {
         message: "Menampilkkan semua students",
@@ -16,7 +14,6 @@ class StudentController {
       return res.status(200).json(data);
     }
 
-    // Jika data array kosong
     const data = {
       message: "Students is empty",
     };
@@ -25,15 +22,10 @@ class StudentController {
   }
 
   async store(req, res) {
-    /**
-     * Validasi sederhana:
-     * - Handle jika salah satu data tidak dikirim
-     */
-
-    // destructing object req.body
+    // destructing object 
     const { nama, nim, email, jurusan } = req.body;
 
-    // jika data undefined maka kirim response error
+    // jika tidak ditemukan akan memberikan status error
     if (!nama || !nim || !email || !jurusan) {
       const data = {
         message: "Semua data harus dikirim",
@@ -42,7 +34,7 @@ class StudentController {
       return res.status(422).json(data);
     }
 
-    // Memanggil method create dari model Student.
+    // membuat method create dari model Student.
     const student = await Student.create(req.body);
 
     const data = {
@@ -58,7 +50,6 @@ class StudentController {
     // Mencari data yang ingin diupdate
     const student = await Student.find(id);
 
-    // Jika data ada, maka update data.
     if (student) {
       // Memanggil method update dari model Student.
       const student = await Student.update(id, req.body);
@@ -70,7 +61,7 @@ class StudentController {
       return res.status(200).json(data);
     }
 
-    // Jika data tidak ditemukan
+    // validasi jika tidak ditemukan
     const data = {
       message: `Student not found`,
     };
@@ -94,7 +85,7 @@ class StudentController {
       return res.status(200).json(data);
     }
 
-    // Jika data tidak ditemukan
+    // validasi jika tidak ditemukan
     const data = {
       message: `Student not found`,
     };
@@ -117,7 +108,7 @@ class StudentController {
       return res.status(200).json(data);
     }
 
-    // Jika data tidak ditemukan
+    // validasi jika tidak ditemukan
     const data = {
       message: `Student not found`,
     };

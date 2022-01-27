@@ -12,6 +12,7 @@ router.get("/", function(req,res) {
 
 const PatientController = require("../controllers/PatientController.js");
 
+//untuk pemanggilan
 router.get("/patients", PatientController.index);
 router.post("/patients", PatientController.store);
 router.get("/patients/:id", PatientController.show);
